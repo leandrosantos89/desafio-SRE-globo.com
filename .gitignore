@@ -1,5 +1,6 @@
-app/proxy/logs/
+app/proxy/logs/*.log
 app/api/__pycache__/
 app/api/api.log
 app/api/.coverage
 app/consumer/consumer.log
+logging/data/*
