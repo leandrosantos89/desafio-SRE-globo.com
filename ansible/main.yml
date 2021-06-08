@@ -1,0 +1,9 @@
+---
+ - name: DEPLOY STACK DESAFIO-SRE-GLOBO.COM
+   hosts: localhost
+
+   roles:
+     - manager
+     - app
+     - logging
+     - monitoring

@@ -1,0 +1,31 @@
+---
+
+  - name: Ensure app directory exists
+    file:
+     path: "{{ app_dir }}"
+     state: directory
+  
+  - name: Get infos on network
+    docker_network_info:
+      name: paredao_backend
+    register: result
+
+  - name: create backend network
+    shell: docker network create -d overlay --attachable paredao_backend
+    become: true
+    when: not result.exists
+
+  - name: Build imagem - api 
+    shell: docker build -t paredao-api -f "{{ app_dir }}"/app/api/Dockerfile "{{ app_dir }}"/app/api
+    become: true
+
+  - name: Build imagem - consumer
+    shell: docker build -t paredao-consumer -f "{{ app_dir }}"/app/consumer/Dockerfile "{{ app_dir }}"/app/consumer
+    become: true
+
+  - name: Build imagem - nginx
+    shell: docker build -t nginx-ubuntu -f "{{ app_dir }}"/app/proxy/Dockerfile "{{ app_dir }}"/app/proxy
+    become: true
+
+  - name: Sobe a stack da aplicação
+    shell: docker stack deploy -c "{{ app_dir }}"/app/stack.yml paredao

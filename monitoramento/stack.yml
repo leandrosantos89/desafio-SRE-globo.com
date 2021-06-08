@@ -1,0 +1,42 @@
+#
+# usage: docker stack deploy -c stack.yml monitoring
+#
+version: '3'
+services:    
+  nginx-exporter:
+    image: nginx/nginx-prometheus-exporter:0.9.0
+    ports:
+      - 9113:9113
+    networks:
+      - paredao_backend
+    command:
+      - -nginx.scrape-uri
+      - http://proxy/stub_status
+    
+  prometheus:
+    image: prom/prometheus
+    ports:
+      - 9090:9090
+    networks:
+      - paredao_backend
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+
+  grafana:
+    image: grafana/grafana
+    ports:
+      - 3000:3000
+    networks:
+      - paredao_backend
+    volumes:
+      - grafana-storage:/var/lib/grafana
+    env_file:
+      - ./grafana.config
+
+volumes:
+  grafana-storage:
+    driver: local
+
+networks:
+  paredao_backend:
+    external: true

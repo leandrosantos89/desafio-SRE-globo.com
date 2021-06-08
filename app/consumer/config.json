@@ -1,0 +1,15 @@
+{
+	"MONGO": {
+		"HOST": "mongo",
+		"PORT": "27017",
+		"USERNAME": "root",
+		"PASSWORD": "n8UV9SMlP4KQiLvZwO7d",
+		"DATABASE": "paredao",
+		"COLLECTION": "votacao"
+	},
+	"RABBITMQ": {
+		"FILA": "votacao"
+	}
+
+}
+

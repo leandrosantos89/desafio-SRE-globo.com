@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Desafio-SRE-globo.com PAREDAO</title>
+</head>
+<body>
+  <nav class="nav nav-pills nav-tabs">
+    <a class="nav-item nav-link" href="/">Votação</a>
+    <a class="nav-item nav-link" href="/resultado.html">Resultado</a>
+    <a class="nav-item nav-link active" href="/painel.html">Painel</a>
+  </nav>
+    <div class="text-center" id="total">
+      <h1 class="display-4 text-center">PAINEL</h1>
+      <p></p>
+    </div>
+
+
+<div class="container w-50">
+  <div class="row gx-5">
+    <div class="col">
+        <div class="card text-center">
+          <div class="card-header">
+            <strong> TOTAL DE VOTOS </strong>
+          </div>
+          <div class="card-body" id="col1">
+            <div class="spinner-border" role="status" id="spinner1">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card text-center">
+        <div class="card-header">
+          <strong> VOTOS NA ÚLTIMA HORA </strong>
+        </div>
+        <div class="card-body" id="col2">
+          <div class="spinner-border" role="status" id="spinner2">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        </div>
+    </div>
+    </div>
+  </div>
+</div>
+
+<script>
+    fetch('http://192.168.0.114/total')
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (total) {
+            appendData(total);
+        })
+        .catch(function (err) {
+            console.log('error: ' + err);
+        });
+    function appendData(total) {   
+        var mainContainer = document.getElementById("col1");
+        var div = document.createElement("div");
+        var soma = parseInt(total.voto_1) + parseInt(total.voto_2);
+        div.innerHTML = soma;
+        document.getElementById("spinner1").hidden = true; 
+        mainContainer.appendChild(div);         
+        var mainContainer = document.getElementById("col2");
+        var div = document.createElement("div");
+        div.innerHTML = total.votos_ultima_hora;
+        document.getElementById("spinner2").hidden = true; 
+        mainContainer.appendChild(div);          
+    }
+</script>
+
+</body>
+</html>

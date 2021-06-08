@@ -1,0 +1,11 @@
+---
+  - name: Verifica se o Docker Swarm está habilitado
+    shell: docker info
+    changed_when: False
+    register: docker_info
+    become: true
+
+  - name: Cria o cluster (apenas um node para testes)
+    shell: docker swarm init
+    when: "docker_info.stdout.find('Swarm: active') == -1"
+    become: true

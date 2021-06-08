@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Desafio-SRE-globo.com PAREDAO</title>
+</head>
+<style>
+    .chart-container {
+      width: 50%;
+      height: 50%;
+      margin: auto;
+    }
+  </style>
+<body>
+  <nav class="nav nav-pills nav-tabs">
+    <a class="nav-item nav-link" href="/">Votação</a>
+    <a class="nav-item nav-link active" href="/resultado.html">Resultado</a>
+    <a class="nav-item nav-link" href="/painel.html">Painel</a>
+  </nav>
+
+<script
+src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.js">
+</script>
+    <div class="container w-50" >
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                      <h1 class="display-4 text-center">RESULTADO PARCIAL</h1>
+                    </div>
+                    <div class="card-body" id="painel">
+                        <div class="spinner-border" role="status" id="spinner">
+                          <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <canvas id="chart">
+                        </canvas>
+                    </div>
+                </div>
+            </div>
+         </div>     
+    </div>
+
+<script>
+    fetch('http://192.168.0.114/total')
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data) {
+            appendData(data);
+        })
+        .catch(function (err) {
+            console.log('error: ' + err);
+        });
+    function appendData(data) {
+            console.log(data)
+            var mainContainer = document.getElementById("painel");
+            var div = document.createElement("div");
+            var soma = parseInt(data.voto_1) + parseInt(data.voto_2);
+            var perc_voto_1 = ((data.voto_1/soma)*100).toFixed(2)
+            var perc_voto_2 = ((data.voto_2/soma)*100).toFixed(2) 
+            var div = document.createElement("div");
+            //div.innerHTML = 'TOTAL DE VOTOS: ' + soma;
+            mainContainer.appendChild(div);          
+            const ctx = document.getElementById("chart").getContext('2d');
+            document.getElementById("spinner").hidden = true; 
+            const myChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ["PARTICIPANTE 1", "PARTICIPANTE 2"],
+                    datasets: [{
+                        label: 'Votos',
+                        data: [perc_voto_1, perc_voto_2],
+                        backgroundColor: ["#0074D9", "#FF4136"]
+                    }]
+                },
+            });
+    }
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+
+</body>
+</html>

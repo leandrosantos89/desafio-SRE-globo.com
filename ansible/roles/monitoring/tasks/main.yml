@@ -1,0 +1,4 @@
+---
+  - name: Sobe a stack de monitoramento
+    shell: cd "{{ app_dir }}"/monitoramento && docker stack deploy -c stack.yml monitoring
+    become: true

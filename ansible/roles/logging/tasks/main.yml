@@ -1,0 +1,9 @@
+---
+
+  - name: build image - logs collector
+    shell: cd "{{ app_dir }}"/logging && docker build -t graylog-collector -f Dockerfile-graylog-collector .
+    become: true
+
+  - name: deploy logging stack
+    shell: cd "{{ app_dir }}"/logging && docker stack deploy -c stack.yml logging
+    become: true

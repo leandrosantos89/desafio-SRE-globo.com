@@ -1,0 +1,4 @@
+app/proxy/logs/*
+app/api/__pycache__/*
+app/api/api.log
+app/consumer/consumer.log

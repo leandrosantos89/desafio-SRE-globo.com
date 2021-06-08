@@ -1,0 +1,56 @@
+#
+# usage: docker build -t graylog-collector -f Dockerfile-graylog-collector .
+#
+FROM debian
+MAINTAINER Leandro santos
+# variáveis de ambiente do graylog - podem ser sobrescritas na criação do container 
+ENV GRAYLOG_NODE_ID=collector-app 
+ENV GRAYLOG_SERVER_URL=http://graylog:9000/api/
+ENV GRAYLOG_TAG=paredao
+
+RUN apt update && apt install -y wget
+
+# install graylog collector 
+# https://docs.graylog.org/en/2.5/pages/collector_sidecar.html
+
+WORKDIR /tmp
+RUN \
+ wget https://github.com/Graylog2/collector-sidecar/releases/download/0.1.8/collector-sidecar_0.1.8-1_amd64.deb &&\
+ dpkg -i collector-sidecar_0.1.8-1_amd64.deb &&\
+ rm -rf /var/lib/apt/lists/*
+######################################### 
+## escrevendo no collector_sidecar.yml
+### NOTE QUE É NECESSÁRIO ESCAPAR O $ nas variáveis de ambiente
+RUN \
+echo "\n\
+server_url: \$GRAYLOG_SERVER_URL \n\
+update_interval: 10 \n\
+tls_skip_verify: false \n\
+send_status: true \n\
+list_log_files: \n\
+node_id: \$GRAYLOG_NODE_ID \n\
+collector_id: file:/etc/graylog/collector-sidecar/collector-id \n\
+cache_path: /var/cache/graylog/collector-sidecar \n\
+log_path: /var/log/graylog/collector-sidecar \n\
+log_rotation_time: 86400 \n\
+log_max_age: 604800 \n\
+tags: \n\
+    - backend \n\
+    - proxy \n\
+backends: \n\
+    - name: filebeat \n\
+      enabled: true \n\
+      binary_path: /usr/bin/filebeat \n\
+      configuration_path: /etc/graylog/collector-sidecar/generated/filebeat.yml \n\
+" > /etc/graylog/collector-sidecar/collector_sidecar.yml
+
+## fim da escrita collector_sidecar.yml
+#########################################
+
+# WORKDIR /logs
+RUN \
+ graylog-collector-sidecar -service install 
+
+# força que o container suba, mesmo dando erro no collector-sidecar
+CMD /etc/init.d/collector-sidecar start || /bin/bash
+#CMD /bin/bash
