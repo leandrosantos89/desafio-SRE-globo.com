@@ -7,13 +7,14 @@ services:
   mongo:
     image: mongo:4.2
     volumes:
-      - mongo_data:/data/db
+      - ./data/mongo/_data:/data/db
 
   # Elasticsearch: https://www.elastic.co/guide/en/elasticsearch/reference/7.10/docker.html
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch-oss:7.10.2
     volumes:
-      - es_data3:/usr/share/elasticsearch/data
+#      - es_data3:/usr/share/elasticsearch/data
+      - ./data/elasticsearch/_data:/usr/share/elasticsearch/data
     environment:
       - http.host=0.0.0.0
       - transport.host=localhost
@@ -32,7 +33,8 @@ services:
   graylog:
     image: graylog/graylog:4.0
     volumes:
-      - graylog_data:/usr/share/graylog/data
+#      - graylog_data:/usr/share/graylog/data
+      - ./data/graylog/_data:/usr/share/graylog/data
     environment:
       # CHANGE ME (must be at least 16 characters)!
       - GRAYLOG_PASSWORD_SECRET=senhamuitofacilmesmo
