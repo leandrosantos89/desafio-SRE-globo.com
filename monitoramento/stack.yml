@@ -29,7 +29,7 @@ services:
     networks:
       - paredao_backend
     volumes:
-      - grafana-storage:/var/lib/grafana
+      - ./grafana/data:/var/lib/grafana
     env_file:
       - ./grafana.config
 
@@ -87,12 +87,6 @@ services:
       mode: global
     ports:
       - 8080:8080
-
-volumes:
-#  netdataconfig:
-#    driver: local
-  grafana-storage:
-    driver: local
 
 networks:
   paredao_backend:
