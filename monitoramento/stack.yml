@@ -33,7 +33,64 @@ services:
     env_file:
       - ./grafana.config
 
+  netdata:
+    image: netdata/netdata
+    ports:
+      - 19999:19999
+    networks:
+      - paredao_backend
+    restart: unless-stopped
+    cap_add:
+      - SYS_PTRACE
+    security_opt:
+      - apparmor:unconfined
+    environment:
+      - PGID=998
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./netdata/nginx.conf:/etc/netdata/python.d/nginx.conf
+#      - netdataconfig:/etc/netdata
+#      - netdatalib:/var/lib/netdata
+#      - netdatacache:/var/cache/netdata
+      - /etc/passwd:/host/etc/passwd:ro
+      - /etc/group:/host/etc/group:ro
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /etc/os-release:/host/etc/os-release:ro
+
+  node-exporter:
+    image: linuxtips/node-exporter_alpine
+    hostname: '{{.Node.ID}}'
+    volumes:
+      - /proc:/usr/proc
+      - /sys:/usr/sys
+      - /:/rootfs
+    deploy:
+      mode: global
+    networks:
+      - paredao_backend
+    ports:
+      - 9100:9100
+
+  cadvisor:
+    image: google/cadvisor
+    hostname: '{{.Node.ID}}'
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:rw
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - paredao_backend
+    deploy:
+      mode: global
+    ports:
+      - 8080:8080
+
 volumes:
+#  netdataconfig:
+#    driver: local
   grafana-storage:
     driver: local
 
