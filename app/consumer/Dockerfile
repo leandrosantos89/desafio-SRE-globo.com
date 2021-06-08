@@ -9,7 +9,6 @@ RUN apt-get update -y && \
     build-essential \
     python3-pip \
     python3-dev \
-    libldap2-dev \
     libsasl2-dev \
     lcov \
     valgrind

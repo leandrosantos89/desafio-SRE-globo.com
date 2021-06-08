@@ -55,33 +55,12 @@ try:
 except: # MELHORAR TRATAMENTO DE EXCECOES
     logger.error("mongoDB server not available")
 
-
-
-# total = db.votacao.aggregate([{
-#     "$group":{ 
-#     "_id": { "year":"$y","month":"$m","day":"$d","hour":"$h"},
-#     'count':{"$sum":1} 
-#     }
-# }])
-
-# TODO: 
-## TRATAR EXCEPTION QUANDO O BANCO ESTÁ VAZIO...
-#db.votacao.insert_one({'_id':1,'voto_1':0})
-#db.votacao.insert_one({'_id':2,'voto_2':0})
-
-#print(db.votacao.find_one({"_id":1}))
-#print(db.votacao.find_one({"_id":2}))
-
-
 # rabbitmq CONNECTION
 logger.debug('[*] starting rabbitmq connection ...')
 fila = config["RABBITMQ"]["FILA"]
 try:
     connection = pika.BlockingConnection(pika.ConnectionParameters(host='rabbitmq'))
     channel = connection.channel()
-    # conecta em N filas
-    #filas = ['votacao']
-    #for fila in filas:
     channel.queue_declare(queue=fila, durable=True)
     logger.debug('rabbitmq connected')
     logger.debug("%s [*] Waiting for messages.", fila)
@@ -91,16 +70,6 @@ except:
 def votacao(body):
 
     collection = config["MONGO"]["COLLECTION"]
-    # if body == b'1':
-    #     qtd_votos = db.votacao.find_one({"_id":1})["voto_1"]
-    #     qtd_votos += 1
-    #     db.votacao.update_one({'_id':1},{'$set': {'voto_1':qtd_votos}})
-    #     logger.info("%s - %s [*] voto computado: total voto_1: %s" % (consumer_hostname,fila, qtd_votos))
-    # if body == b'2':
-    #     qtd_votos = db.votacao.find_one({"_id":2})["voto_2"]
-    #     qtd_votos += 1
-    #     db.votacao.update_one({'_id':2},{'$set': {'voto_2':qtd_votos}})
-    #     logger.info("%s - %s [*] voto computado: total voto_2: %s" % (consumer_hostname,fila, qtd_votos))
     if body == b'1':
         db[collection].insert_one({"id_votacao":"votacao_01","voto_1":1,"voto_2":0,"data":datetime.today().replace(microsecond=0)})
         logger.info("[*] voto computado: voto_1")
@@ -118,7 +87,8 @@ def callback(ch, method, properties, body):
     
     if method.routing_key == fila:
         votacao(body)
-    #else return algum erro
+    else:
+        logger.error("Wrong routing key: %s", method.routing_key)
     
     logger.debug("[x] DONE")
     ch.basic_ack(delivery_tag=method.delivery_tag) 

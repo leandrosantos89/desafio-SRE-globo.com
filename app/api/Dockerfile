@@ -18,5 +18,4 @@ ENTRYPOINT [ "python3" ]
 #CMD [ "api-sanic.py" ]
 
 CMD [ "api.py" ]
-#CMD [ "--socket=0.0.0.0:5000", "--protocol=http", "--cheaper-algo=busyness", "--processes 2", "--threads 8", "--need-app", "--max-requests=200", "--enable-threads", "-w wsgi:app"]
-#CMD [ "--bind=0:5000", "wsgi:app"]
+#CMD [ "--socket=0.0.0.0:5000", "--protocol=http", "--cheaper-algo=busyness", "--processes=2", "--threads=8", "--need-app", "--max-requests=200", "--enable-threads", "-w wsgi:app"]

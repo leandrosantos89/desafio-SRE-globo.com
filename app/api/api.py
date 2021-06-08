@@ -112,7 +112,6 @@ def votacao(voto):
     response = app.response_class(
         response=return_message,
         status=status
-        #mimetype='application/json'
     )
     response.headers.add("Access-Control-Allow-Origin", "*")
     logger.info("HIT /votar")
