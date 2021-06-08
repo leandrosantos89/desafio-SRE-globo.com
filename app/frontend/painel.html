@@ -25,9 +25,33 @@
     <div class="col">
         <div class="card text-center">
           <div class="card-header">
-            <strong> TOTAL DE VOTOS </strong>
+            <strong> TOTAL GERAL DE VOTOS </strong>
           </div>
           <div class="card-body" id="col1">
+            <div class="spinner-border" role="status" id="spinner1">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
+      </div>
+    </div>
+    <div class="col">
+        <div class="card text-center">
+          <div class="card-header">
+            <strong> VOTOS PARTICIPANTE 1 </strong>
+          </div>
+          <div class="card-body" id="col2">
+            <div class="spinner-border" role="status" id="spinner1">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
+      </div>
+    </div>
+    <div class="col">
+        <div class="card text-center">
+          <div class="card-header">
+            <strong> VOTOS PARTICIPANTE 2 </strong>
+          </div>
+          <div class="card-body" id="col3">
             <div class="spinner-border" role="status" id="spinner1">
               <span class="visually-hidden">Loading...</span>
             </div>
@@ -39,7 +63,7 @@
         <div class="card-header">
           <strong> VOTOS NA ÚLTIMA HORA </strong>
         </div>
-        <div class="card-body" id="col2">
+        <div class="card-body" id="col4">
           <div class="spinner-border" role="status" id="spinner2">
             <span class="visually-hidden">Loading...</span>
           </div>
@@ -67,7 +91,20 @@
         div.innerHTML = soma;
         document.getElementById("spinner1").hidden = true; 
         mainContainer.appendChild(div);         
+
         var mainContainer = document.getElementById("col2");
+        var div = document.createElement("div");
+        div.innerHTML = total.voto_1;
+        document.getElementById("spinner2").hidden = true; 
+        mainContainer.appendChild(div);          
+
+        var mainContainer = document.getElementById("col3");
+        var div = document.createElement("div");
+        div.innerHTML = total.voto_2;
+        document.getElementById("spinner3").hidden = true; 
+        mainContainer.appendChild(div);          
+
+        var mainContainer = document.getElementById("col4");
         var div = document.createElement("div");
         div.innerHTML = total.votos_ultima_hora;
         document.getElementById("spinner2").hidden = true; 
