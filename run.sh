@@ -48,7 +48,9 @@ subir_logging(){
 }
 
 subir_monitoring(){
-  cd $FULL_FOLDER/monitoramento && docker stack deploy -c stack.yml monitoring
+  cd $FULL_FOLDER/monitoramento
+  chown 472 grafana/data/grafana.db
+  docker stack deploy -c stack.yml monitoring
 }
 
 full_stack_shell(){
