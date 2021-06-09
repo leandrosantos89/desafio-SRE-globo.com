@@ -40,7 +40,7 @@
             <strong> VOTOS PARTICIPANTE 1 </strong>
           </div>
           <div class="card-body" id="col2">
-            <div class="spinner-border" role="status" id="spinner1">
+            <div class="spinner-border" role="status" id="spinner2">
               <span class="visually-hidden">Loading...</span>
             </div>
           </div>
@@ -52,7 +52,7 @@
             <strong> VOTOS PARTICIPANTE 2 </strong>
           </div>
           <div class="card-body" id="col3">
-            <div class="spinner-border" role="status" id="spinner1">
+            <div class="spinner-border" role="status" id="spinner3">
               <span class="visually-hidden">Loading...</span>
             </div>
           </div>
@@ -64,7 +64,7 @@
           <strong> VOTOS NA ÚLTIMA HORA </strong>
         </div>
         <div class="card-body" id="col4">
-          <div class="spinner-border" role="status" id="spinner2">
+          <div class="spinner-border" role="status" id="spinner4">
             <span class="visually-hidden">Loading...</span>
           </div>
         </div>
@@ -107,7 +107,7 @@
         var mainContainer = document.getElementById("col4");
         var div = document.createElement("div");
         div.innerHTML = total.votos_ultima_hora;
-        document.getElementById("spinner2").hidden = true; 
+        document.getElementById("spinner4").hidden = true; 
         mainContainer.appendChild(div);          
     }
 </script>

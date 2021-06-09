@@ -4,4 +4,4 @@ app/api/api.log
 app/api/.coverage
 app/consumer/consumer.log
 logging/data/*
-monitoramento/grafana/data/plugins/*
+monitoramento/grafana/data/plugins/
