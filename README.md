@@ -79,13 +79,18 @@ Extra:
 ### Logging
 - Graylog: http://localhost:9000 (admin:admin)
 
-## Organização, Arquitetura e Frameworks (aplicação)
+## Organização, Arquitetura e Frameworks 
 ### Organização 
 A aplicação está separada em três aplicações, Frontend e API Rest e um consumidor da fila. O foco do projeto é a escalabidade. Para isso cada parte da aplicação é um container docker isolado. Dessa forma, a aplicação escala de forma independente, tanto o frontend quanto o backend.
 
 O Frontend contém os conteúdos estáticos (html e javascript puro) e é servido por um container NGINX. Esse mesmo container NGINX também provê acesso à API Rest. Assim, todo o processamento das telas fica no cliente e não onera o backend.
 
 A API Rest fica responsável por entregar os dados tanto para o frontend quanto para algum outro cliente, isso é feito por meio de uma fila (RabbitMQ. O processamento dos votos é feito de fato no consumer, que consume os dados que estão na fila.
+
+Todos os logs da aplicação (API, consumer e fronted-NGINX) são em JSON. Esses logs são coletados pelo graylog-collector. E o Graylog fica responsável em armazenar (elasticsearch) e mostrar os logs em dashboards.
+
+A coleta de métricas é realizada principalmente pelo Prometheus. Já a geração das métricas fica a cargo de diversas ferramentas, como CAdvisor, node-exporter, nginx-exporter e netdata. O Grafana utiliza o Prometheus como database para mostrar as métricas em dashboards em tempo real (a cada 30 segundos). Já o netdata é o responsável por mostrar diversas métricas em tempo real.
+
 
 ### Arquitetura
 ![Arquitetura](./Arquitetura.png?raw=true "Arquitetura")
@@ -123,3 +128,12 @@ A API Rest fica responsável por entregar os dados tanto para o frontend quanto 
 - Grafana + prometheus + CAdvisor + Node-exporter + nginx-exporter: escolhida por ser muito utilizada. O Prometheus facilita muito a coleta de dados e o Grafana provê dashboards agradáveis e flexíveis.
 - Netdata: Solução pronta para monitoramento em tempo real do hospedeiro e de algumas ferramentas. Foi escolhido por entregar muitas métricas (inclusive para o prometheus) e também já possui diversos dashboards prontos.
 
+## O que faltou e possíveis soluções
+### 1000 requisições por segundo
+A API não está suportando 1000 req/s. Acredito que o principal motivo seja a comunicação síncrona, tanto da API quanto do banco. Uma forma de resolver seria utilizar um framework assíncrono (Tornado ou Sanic, por exemplo) e um driver assíncrono para o Mongo (Motor, por exemplo). Ou até mesmo partir para outra linguagem, como o Go.
+
+### Autenticação da API
+Para dar mais segurança à solução, poderia utilizar um mecanismo de autenticação na API, como o JWT.
+
+### Área de admin
+Poderia ter feito uma área de admin simples no frontend para facilitar a configuração das telas (nome dos participantes por exemplo). Além disso, o painel poderia ter uma autenticação, já que seria visto apenas pela produção.
