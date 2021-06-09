@@ -1,20 +1,37 @@
 #!/bin/bash
 #
+# Instala as dependências necessárias para rodar o projeto
+#  utilizando shell ou ansible
 #
-
-# deixar tudo como localhost
-## chamadas de api do javascript
 
 FULL_PATH="$(realpath $0)"
 FULL_FOLDER="$(dirname $FULL_PATH)"
 
 
-sudo apt update
-sudo apt install python3-pip ansible
-pip install docker
+basic() {
+  sudo apt update
+  sudo timedatectl set-timezone America/Sao_Paulo
+}
+
+shell(){
+  basic
+  if [ $(command -v docker) == "" ]; then
+    curl -sS https://get.docker.com | bash
+  fi
+
+}
+
+ansible(){
+  basic
+  sudo apt install python3-pip ansible
+  pip install docker
+  echo "  app_dir: \"$FULL_FOLDER\"" >> $FULL_FOLDER/ansible/group_vars/all
+}
 
 
-
-echo "  app_dir: \"$FULL_FOLDER\"" >> $FULL_FOLDER/ansible/group_vars/all
-
-#sudo timedatectl set-timezone America/Sao_Paulo
+if [ $# -eq 0 ]
+then
+  echo "usage: $0 {shell|ansible}"
+else
+  $1
+fi
