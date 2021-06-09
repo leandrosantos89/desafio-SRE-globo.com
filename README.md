@@ -1,9 +1,9 @@
 # Desafio-SRE-globo.com
 
 ## TODO
-[ ] terminar documentação
-[ ] adicionar dashboard no grafana + print
-[x] subir imagens para o dockerhub
+- [ ] terminar documentação
+- [ ] adicionar dashboard no grafana + print
+- [x] subir imagens para o dockerhub
 
 ### o que é necessário para subir o projeto localmente
     - docker em modo swarm
@@ -20,7 +20,13 @@
     - entre no diretório `ansible` e execute `ansible-playbook -i hosts main.yml -v`
         - utilize --ask-become-pass se o sudo precisa de senha
         - vai instalar e fazer o deploy da aplicação, monitoramento e logging
-    
+
+#### dockerhub
+- leandrorfsantos/paredao-proxy
+- leandrorfsantos/paredao-api
+- leandrorfsantos/paredao-consumer
+- leandrorfsantos/logging-collector
+
 ### projeto básico... frontend + backend + monitoramento(prometheus + grafana)
     - proxy reverso + frontend -> nginx
     - exportar métricas e visualização -> nginx-exporter, prometheus, grafana
