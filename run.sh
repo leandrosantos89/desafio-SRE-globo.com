@@ -24,10 +24,14 @@ isSwarmNode_and_existsNetwork(){
 }
 
 subir_app(){
+  cd $FULL_FOLDER/app/proxy && docker build -t nginx-ubuntu .
+  cd $FULL_FOLDER/app/api && docker build -t paredao-api .
+  cd $FULL_FOLDER/app/consumer && docker build -t paredao-consumer .
   cd $FULL_FOLDER/app && docker stack deploy -c stack.yml paredao
 }
 
 subir_logging(){
+  cd $FULL_FOLDER/logging && docker build -t graylog-collector -f Dockerfile-graylog-collector .
   cd $FULL_FOLDER/logging && docker stack deploy -c stack.yml logging
 }
 
