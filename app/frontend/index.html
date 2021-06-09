@@ -128,7 +128,7 @@
       function votar_1(){
         if(submitUserForm()){
           var xhr = new XMLHttpRequest();
-          xhr.open("POST", "http:///192.168.0.114/votar/1", true);
+          xhr.open("POST", "http:///localhost/votar/1", true);
           xhr.send(
               1
           );
@@ -143,7 +143,7 @@
         if(submitUserForm()){
           console.log('teste')
           var xhr = new XMLHttpRequest();
-          xhr.open("POST", "http://192.168.0.114/votar/2", true);
+          xhr.open("POST", "http://localhost/votar/2", true);
           xhr.send(
               1
           );
