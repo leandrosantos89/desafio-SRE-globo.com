@@ -15,10 +15,7 @@ O deploy foi testado em um ambiente com Ubuntu 20.04.
 ```bash
 git clone git@github.com:leandrosantos89/desafio-SRE-globo.com.git
 cd desafio-SRE-globo.com
-# escolha a forma de subir o projeto, shell ou ansible
 ./preflight.sh (shell|ansible)
-# run.sh possui algumas opções para subir a pilha:
-## OBS.: a pilha de logging precisa de arquivos adicionais
 ./run.sh (subir_app|subir_logging|subir_monitoring|full_stack_shell|full_stack_ansible)
 ```
 Extra:
