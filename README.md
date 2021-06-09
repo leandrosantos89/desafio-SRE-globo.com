@@ -1,10 +1,9 @@
 # Desafio-SRE-globo.com
 
 ## TODO
-- melhorar documentação
-- adicionar dashboard no grafana + print
-- subir imagens para o dockerhub
-
+[ ] terminar documentação
+[ ] adicionar dashboard no grafana + print
+[x] subir imagens para o dockerhub
 
 ### o que é necessário para subir o projeto localmente
     - docker em modo swarm
@@ -34,15 +33,11 @@
         - localhost/resultado.html -> mostra o resultado parcial do paredão
         - localhost/painel.html -> painel que mostra o total de votos e votos/hora
         - localhost:5000/ -> apenas retorna 'OK'
-        - localhost:5000/
         - localhost:5000/total -> endpoint da API que retorna o total de votos de cada participante
-            - retorna um json `{"voto_1": 2, "voto_2": 0, "votos_ultima_hora": 0}`
-            - retorna 200
+            - retorna um json `{"voto_1": 10000, "voto_2": 8500, "votos_ultima_hora": 5000}`
         - localhost:5000/votar/{1|2} -> endpoint responsável por realizar a votação
-            - retorna 200
-            - recebe a votação direto no endpoint 
-                - `/votar/1 -> vota em 1`
-                - `/votar/2 -> vota em 2`
+            - `/votar/1 -> vota em 1`
+            - `/votar/2 -> vota em 2`
 
 ### Testes de carga
     - ab e wrk
