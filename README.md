@@ -106,6 +106,12 @@ A coleta de métricas é realizada principalmente pelo Prometheus. Já a geraç�
   - `/votar/1 -> vota em 1`
   - `/votar/2 -> vota em 2`
 
+#### Formato dos logs
+- Backend (API e consumer)
+  - `{"asctime":"%(asctime)s","backend":"%(name)s","level":"%(levelname)s","mensagem":"%(message)s"}`
+- Proxy NGINX
+  - `{ "time": "$time_iso8601", ' '"remote_addr": "$remote_addr", ' '"upstream_addr": "$upstream_addr", ' '"remote_user": "$remote_user", ' '"body_bytes_sent": "$body_bytes_sent", ' '"request_time": $request_time, ' '"status": $status, ' '"request": "$request", ' '"request_method": "$request_method", ' '"http_referrer": "$http_referer", ' '"http_user_agent": "$http_user_agent" }`
+
 ### Frameworks e Ferramentas
 #### API Rest
 - Flask: Escolhido por ser um framework leve e simples de implementar.
