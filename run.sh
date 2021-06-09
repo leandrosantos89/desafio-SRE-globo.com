@@ -54,7 +54,7 @@ fi
 
 if [ $# -eq 0 ]
 then
-  echo "usage: $0 {subir_app|subir_loggin|subir_monitoring|full_stack_shell|full_stack_ansible}"
+  echo "usage: $0 {subir_app|subir_logging|subir_monitoring|full_stack_shell|full_stack_ansible}"
 else
   isSwarmNode_and_existsNetwork
   $1

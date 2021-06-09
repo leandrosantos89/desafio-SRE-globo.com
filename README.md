@@ -6,20 +6,25 @@
 - [x] subir imagens para o dockerhub
 
 ### o que é necessário para subir o projeto localmente
-    - docker em modo swarm
-        - curl -Ss https://get.docker.com | bash
-        - `docker swarm init`
-    - portainer (para ajudar na visualização dos containers)[opcional]
-        - `curl -L https://downloads.portainer.io/portainer-agent-stack.yml -o portainer-agent-stack.yml`
-        - `docker stack deploy -c portainer-agent-stack.yml portainer`
 
-### DEPLOY
-    - testado em ubuntu 20.04
-    - git clone do projeto
-    - executar o script preflight.sh
-    - entre no diretório `ansible` e execute `ansible-playbook -i hosts main.yml -v`
-        - utilize --ask-become-pass se o sudo precisa de senha
-        - vai instalar e fazer o deploy da aplicação, monitoramento e logging
+Testado em Ubuntu 20.04
+```
+git clone git@github.com:leandrosantos89/desafio-SRE-globo.com.git
+cd desafio-SRE-globo.com
+# escolha a forma de subir o projeto, shell ou ansible
+./preflight.sh (shell|ansible)
+# run.sh possui algumas opções para subir a pilha:
+## OBS.: a pilha de logging precisa de arquivos adicionais
+./run.sh {subir_app|subir_logging|subir_monitoring|full_stack_shell|full_stack_ansible}
+```
+
+- docker em modo swarm
+- curl -Ss https://get.docker.com | bash
+    - `docker swarm init`
+- portainer (para ajudar na visualização dos containers)[opcional]
+    - `curl -L https://downloads.portainer.io/portainer-agent-stack.yml -o portainer-agent-stack.yml`
+    - Altera a porta do portainer, pois a porta 9000 já é do graylog
+    - `docker stack deploy -c portainer-agent-stack.yml portainer`
 
 #### dockerhub
 - leandrorfsantos/paredao-proxy
