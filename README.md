@@ -2,28 +2,29 @@
 
 ## TODO
 - [ ] terminar documentação
-- [ ] adicionar dashboard no grafana + print
+- [x] adicionar dashboard no grafana + print
 - [x] subir imagens para o dockerhub
 
-### o que é necessário para subir o projeto localmente
+### DEPLOY
 
-Testado em Ubuntu 20.04
-```
+Procurei fazer o deploy o mais simples e automático possível. Para isso utilizei duas formas: shell script e ansible.
+O primeiro passo é executar o `preflight.sh (shell|ansible)`. Esse script vai instalar as dependências necessárias e também vai preparar o ambiente para subir a aplicação.
+O segundo passo é executar o `run.sh (subir_app|subir_logging|subir_monitoring|full_stack_shell|full_stack_ansible)`. Esse script vai subir todo o projeto. Você pode escolher subir apenas a aplicação (frontend + api + banco). Caso queira, pode subir toda a pilha utilizando shell ou ansible.
+O deploy foi testado em um ambiente com Ubuntu 20.04.
+
+```bash
 git clone git@github.com:leandrosantos89/desafio-SRE-globo.com.git
 cd desafio-SRE-globo.com
 # escolha a forma de subir o projeto, shell ou ansible
 ./preflight.sh (shell|ansible)
 # run.sh possui algumas opções para subir a pilha:
 ## OBS.: a pilha de logging precisa de arquivos adicionais
-./run.sh {subir_app|subir_logging|subir_monitoring|full_stack_shell|full_stack_ansible}
+./run.sh (subir_app|subir_logging|subir_monitoring|full_stack_shell|full_stack_ansible)
 ```
-
-- docker em modo swarm
-- curl -Ss https://get.docker.com | bash
-    - `docker swarm init`
-- portainer (para ajudar na visualização dos containers)[opcional]
+Extra:
+- portainer (para ajudar na visualização dos containers)
     - `curl -L https://downloads.portainer.io/portainer-agent-stack.yml -o portainer-agent-stack.yml`
-    - Altera a porta do portainer, pois a porta 9000 já é do graylog
+    - Alter a porta que o portainer expôe, pois a porta 9000 já é utilizada no graylog
     - `docker stack deploy -c portainer-agent-stack.yml portainer`
 
 #### dockerhub
