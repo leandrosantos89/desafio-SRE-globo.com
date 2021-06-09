@@ -8,6 +8,17 @@
 FULL_PATH="$(realpath $0)"
 FULL_FOLDER="$(dirname $FULL_PATH)"
 
+download_logging_data(){
+  cd /home/ubuntu
+  su - ubuntu -c "gdown https://drive.google.com/uc?id=16JDFPk3aG4AQ18Mvp2900MDBn2fXdd5k"
+  tar -xzf logging_data.tar.gz
+  rsync -a logging_data/ $FULL_FOLDER/logging/data/
+  chgrp 1100 $FULL_FOLDER/logging/data/graylog
+  chgrp 1000 $FULL_FOLDER/logging/data/elasticsearch
+  chgrp 999 $FULL_FOLDER/logging/data/mongo
+  chmod 775 -R $FULL_FOLDER/logging/data
+}
+
 isSwarmNode_and_existsNetwork(){
   if [[ "$(docker info | grep Swarm | sed 's/Swarm: //g' | grep inactive)" ]]; then
     echo "Iniciando swarm node"
@@ -31,6 +42,7 @@ subir_app(){
 }
 
 subir_logging(){
+  download_logging_data
   cd $FULL_FOLDER/logging && docker build -t graylog-collector -f Dockerfile-graylog-collector .
   cd $FULL_FOLDER/logging && docker stack deploy -c stack.yml logging
 }
@@ -47,6 +59,7 @@ full_stack_shell(){
 
 
 full_stack_ansible(){
+  download_logging_data
   cd $FULL_FOLDER/ansible && ansible-playbook -i hosts main.yml -v
 }
 

@@ -10,7 +10,10 @@ FULL_FOLDER="$(dirname $FULL_PATH)"
 
 basic() {
   sudo apt update
+  sudo apt install python3-pip
   sudo timedatectl set-timezone America/Sao_Paulo
+  # para fazer o download dos dados de logging
+  pip install gdown
 }
 
 shell(){
