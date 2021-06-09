@@ -62,11 +62,12 @@ Extra:
     - Alter a porta que o portainer expôe, pois a porta 9000 já é utilizada no graylog
     - `docker stack deploy -c portainer-agent-stack.yml portainer`
 
-### Aplicação
+### Acessos
+#### Aplicação
 - Abra a aplicação no endereço http://localhost em algum browser
 - API Rest: http://localhost:5000
 
-### Monitoramento
+#### Monitoramento
 - Prometheus: http://localhost:9090
 - Netdata: http://localhost:19999
 - CAdvisor: http://localhost:8080
@@ -76,7 +77,7 @@ Extra:
 - Mongo-express: http://localhost:8081
 - RabbitMQ (Métricas): http://localhost:15672 (guest:guest)
 
-### Logging
+#### Logging
 - Graylog: http://localhost:9000 (admin:admin)
 
 ## Organização, Arquitetura e Frameworks 
