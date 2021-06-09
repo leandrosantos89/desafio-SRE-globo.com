@@ -109,7 +109,9 @@ A coleta de métricas é realizada principalmente pelo Prometheus. Já a geraç�
 
 #### Formato dos logs
 - Backend (API e consumer)
-  - `{"asctime":"%(asctime)s","backend":"%(name)s","level":"%(levelname)s","mensagem":"%(message)s"}`
+  - API e consumer: `{"asctime":"%(asctime)s","backend":"%(name)s","level":"%(levelname)s","mensagem":"%(message)s"}`
+  - API: `{"voto_1": 10000, "voto_2": 8500, "votos_ultima_hora": 5000}`
+
 - Proxy NGINX
   - `{ "time": "$time_iso8601", ' '"remote_addr": "$remote_addr", ' '"upstream_addr": "$upstream_addr", ' '"remote_user": "$remote_user", ' '"body_bytes_sent": "$body_bytes_sent", ' '"request_time": $request_time, ' '"status": $status, ' '"request": "$request", ' '"request_method": "$request_method", ' '"http_referrer": "$http_referer", ' '"http_user_agent": "$http_user_agent" }`
 
@@ -134,6 +136,14 @@ A coleta de métricas é realizada principalmente pelo Prometheus. Já a geraç�
 #### Stack de monitoramento
 - Grafana + prometheus + CAdvisor + Node-exporter + nginx-exporter: escolhida por ser muito utilizada. O Prometheus facilita muito a coleta de dados e o Grafana provê dashboards agradáveis e flexíveis.
 - Netdata: Solução pronta para monitoramento em tempo real do hospedeiro e de algumas ferramentas. Foi escolhido por entregar muitas métricas (inclusive para o prometheus) e também já possui diversos dashboards prontos.
+
+### Dashboards
+
+![grafana01](./prints/grafana-nginx-rabbitmq-mongo.png?raw=true "grafana01")
+![graylo01](./prints/graylog-proxy.png?raw=true "graylog-proxy")
+![graylo02](./prints/gryalog-backend.png?raw=true "gryalog-backend")
+![netdata01](./prints/netdata-general-metrics-server.png?raw=true "netdata-general-metrics-server")
+![netdata02](./prints/netdata-nginx.png?raw=true "netdata-nginx")
 
 ## O que faltou e possíveis soluções
 ### 1000 requisições por segundo
