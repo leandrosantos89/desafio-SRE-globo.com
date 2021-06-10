@@ -10,7 +10,7 @@ FULL_FOLDER="$(dirname $FULL_PATH)"
 
 basic() {
   sudo apt update
-  sudo apt install python3-pip
+  sudo apt install python3-pip -y
   sudo timedatectl set-timezone America/Sao_Paulo
   # para fazer o download dos dados de logging
   pip install gdown
@@ -26,7 +26,7 @@ shell(){
 
 ansible(){
   basic
-  sudo apt install python3-pip ansible
+  sudo apt install python3-pip ansible -y
   pip install docker
   echo "  app_dir: \"$FULL_FOLDER\"" >> $FULL_FOLDER/ansible/group_vars/all
 }
