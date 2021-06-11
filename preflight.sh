@@ -18,7 +18,7 @@ basic() {
 
 shell(){
   basic
-  if [ $(command -v docker) == "" ]; then
+  if [[ $(command -v docker) == "" ]]; then
     curl -sS https://get.docker.com | bash
   fi
 

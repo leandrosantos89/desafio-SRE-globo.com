@@ -12,7 +12,6 @@ from logging.handlers import TimedRotatingFileHandler
 import time
 from datetime import datetime, timedelta
 from flasgger import Swagger
-from log import Logger
 
 app = Flask(__name__)
 
