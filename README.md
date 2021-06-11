@@ -41,7 +41,13 @@ docker exec -ti $(docker ps -q --filter 'name=paredao_api.1.*') py.test --cov=ap
 
 ### Como rodar os testes de performance
 ab
-wrk
+
+- `wrk -t50 -c1000 -d10s -s data-wrk.json http://200.131.172.148:5000/votar`
+```
+wrk.method = "POST"
+wrk.body = "{\"voto\": 1}"
+wrk.headers["Content-Type"] = "application/json"
+```
 
 ## Como fazer o deploy
 
