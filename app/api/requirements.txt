@@ -4,3 +4,4 @@ pymongo
 pytest
 coverage
 pytest-cov
+flasgger

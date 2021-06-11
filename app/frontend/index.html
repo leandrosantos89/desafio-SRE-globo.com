@@ -48,7 +48,7 @@
             <div class="accordion-body">                
               <div id="RecaptchaField1"></div>
               <div id="g-recaptcha-error"></div>
-              <p><button type="button" class="btn btn-primary" hidden="true" id="btn1" onclick="votar_1()">VOTAR NO PARTICIPANTE 1</button</p>
+              <p><button type="button" class="btn btn-primary" hidden="true" id="btn1" onclick="votar(1)">VOTAR NO PARTICIPANTE 1</button</p>
             </div>
           </div>
         </div>
@@ -63,7 +63,7 @@
               <div class="accordion-body">        
                 <div id="RecaptchaField2"></div>
                 <div id="g-recaptcha-error"></div>
-                <p><button type="button" class="btn btn-primary" hidden="true" id="btn2" onclick="votar_2()">VOTAR NO PARTICIPANTE 2  </button</p>
+                <p><button type="button" class="btn btn-primary" hidden="true" id="btn2" onclick="votar(2)">VOTAR NO PARTICIPANTE 2  </button</p>
               </div>
           </div>
         </div>
@@ -125,33 +125,29 @@
         document.getElementById("RecaptchaField2").hidden = true;  
       }
 
-      function votar_1(){
-        if(submitUserForm()){
-          var xhr = new XMLHttpRequest();
-          xhr.open("POST", "http:///localhost/votar/1", true);
-          xhr.send(
-              1
-          );
-          alert("Seu voto no participante 1 foi computado com sucesso!")
-          setTimeout(window.location.replace("/painel.html"), 300);
-          return true;
-        }
-        return false;
-      }
-
-      function votar_2(){
+      function votar(participante_id){
         if(submitUserForm()){
           console.log('teste')
           var xhr = new XMLHttpRequest();
-          xhr.open("POST", "http://localhost/votar/2", true);
-          xhr.send(
-              1
-          );
-          alert("Seu voto no participante 2 foi computado com sucesso!")
-          setTimeout(window.location.replace("/painel.html"), 300);
-          return true;
+          xhr.open("POST", "http://localhost/votar", true);
+          xhr.setRequestHeader("Content-Type", "application/json");
+          data = '{"voto":' + participante_id + '}'
+          console.log(data)
+          xhr.send(data);
+          xhr.onload = (e) => {
+            if ((xhr.status) != 200) {
+                alert("Ocorreu um erro ao computar seu voto. Tente novamente.");
+                return false;
+            } else {
+               alert("Seu voto no participante " + participante_id + " foi computado com sucesso.");
+               setTimeout(window.location.replace("/resultado.html"), 300);
+               return true;
+
+            }
+          }
         }
         return false;
+
       }
     </script>
   </div>

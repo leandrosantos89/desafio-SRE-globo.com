@@ -11,26 +11,49 @@ import logging
 from logging.handlers import TimedRotatingFileHandler
 import time
 from datetime import datetime, timedelta
+from flasgger import Swagger
+from log import Logger
 
 app = Flask(__name__)
+
+template = {
+  "swagger": "2.0",
+  "info": {
+    "title": "API do PAREDÃO do BBB",
+    "description": "Flask API desenvolvida para o desafio de SRE da globo.com",
+    "version": "1.0",
+    "contact": {
+      "name": "Leandro",
+      "url": "https://github.com/leandrosantos89",
+    }
+  }
+}
+
+app.config['SWAGGER'] = {
+    'title': 'API - PAREDAO BBB',
+    'uiversion': 3,
+    "specs_route": "/swagger/"
+}
+swagger = Swagger(app, template=template)
 
 with open('config.json', 'r') as f:
     config = json.load(f)
 
 api_hostname = socket.gethostname() # apenas para mostrar o hostname nos logs
-FORMATTER = logging.Formatter('{"asctime":"%(asctime)s","backend":"%(name)s","level":"%(levelname)s","mensagem":"%(message)s"}')
-FORMATTER2 = logging.Formatter("%(asctime)s — %(name)s — [%(levelname)s] — %(message)s")
-LOG_FILE = "api.log"
 
+#.set_format().set_fileHandler().set_consoleHandler()
+
+FORMATTER = logging.Formatter('{"asctime":"%(asctime)s","backend":"%(name)s","level":"%(levelname)s","mensagem":"%(message)s"}')
 
 logger = logging.getLogger(api_hostname)
-logger.setLevel(logging.DEBUG)
+level = logging.getLevelName(logging.DEBUG)
+logger.setLevel(level)
 # cria um arquivo de log (DEBUG level)
 fh = logging.FileHandler('api.log')
-fh.setLevel(logging.DEBUG)
+fh.setLevel(level)
 # cria um log no console com um nível mais alto
 ch = logging.StreamHandler()
-ch.setLevel(logging.DEBUG)
+ch.setLevel(level)
 ch.setFormatter(FORMATTER)
 fh.setFormatter(FORMATTER)
 logger.addHandler(ch)
@@ -60,10 +83,16 @@ logger.debug("READY")
 
 @app.route('/')
 def index():
+    """Test endpoint
+        ---      
+        tags:
+            - API - Paredao do BBB
+        summary: Retorna status 200 e uma mensagem OK 
+        responses:
+            200:
+                description: Successfully hit the api        
     """
-    Apenas um index para verificar se a API está acessível
-    :return: OK
-    """
+
     response = app.response_class(
         response='OK',
         status=200
@@ -74,14 +103,37 @@ def index():
     return response
 
 # curl -H "Content-type: application/json" -X POST -i localhost:5000/api/v1/<queue_name> -d @pessoa.json
-@app.route('/votar/<voto>', methods = ['POST'])
-def votacao(voto):
+@app.route('/votar', methods = ['POST'])
+def votacao():
+    """Voting Endpoint
+    ---  
+      tags:
+        - API - Paredao do BBB
+      summary: PAREDAO - um participante tem que sair da casa
+      description: Vote em um participante para sair da casa
+      parameters:
+        - name: voto
+          in: body
+          description: ID do participante
+          required: True
+          schema:
+            type: object
+            properties:
+              voto:
+                type: integer
+                description: ID do participante
+      responses:
+        200:
+          description: Voto computado com sucesso
+          schema:
+            properties:
+              voto:
+                type: integer
+                description: ID do participante
     """
-    Recebe os votos(um de cada vez) e publica na fila
-    :param voto: 1 ou 2
-    :return: retorna apenas uma mensagem com a fila e consumer que receberam o dado
-    """
-    #message = voto
+    
+    voto = request.json["voto"]
+    voto = str(voto)
     return_message = " [x] Sent to queue " + voto + " FROM " + socket.gethostname()
     
     if (voto == '1' or voto == '2'):
@@ -120,6 +172,15 @@ def votacao(voto):
 
 @app.route('/total', methods = ['GET'])
 def total_votos():
+    """Total de votos Endpoint
+      ---      
+      tags:
+        - API - Paredao do BBB
+      responses:
+        200:
+          description: Total de votos
+          body: OK
+    """
     #total_voto_1 = db.votacao.find_one({"_id":1})['voto_1']
     #total_voto_2 = db.votacao.find_one({"_id":2})['voto_2']
 
@@ -150,7 +211,6 @@ def total_votos():
     except:
         status = 503
         logger.error("MONGODB não foi possível calcular o total de votos")
-
 
     #return "voto_1: " + str(db.votacao.find_one({"_id":1})['voto_1']) + ", voto_2: " + str(db.votacao.find_one({"_id":2})['voto_2'])
     #return Response("{'voto_1':total_voto_1}", status=200, mimetype='application/json')
