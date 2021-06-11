@@ -36,7 +36,8 @@ docker exec -ti $(docker ps -q --filter 'name=paredao_api.1.*') py.test --cov=ap
 ### Como rodar os testes de performance
 ab
 
-- `wrk -t50 -c1000 -d10s -s data-wrk.json http://200.131.172.148:5000/votar`
+- `wrk -t50 -c1000 -d10s -s data-wrk.json http://localhost:5000/votar`
+- crie o arquivo data-wrk.json:
 ```
 wrk.method = "POST"
 wrk.body = "{\"voto\": 1}"
