@@ -1,7 +1,7 @@
 # Desafio-SRE-globo.com
 
 ## TODO
-- [ ] terminar documentação
+- [x] terminar documentação
 - [x] adicionar dashboard no grafana + print
 - [x] subir imagens para o dockerhub
 
