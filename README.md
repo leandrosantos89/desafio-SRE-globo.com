@@ -97,6 +97,7 @@ A coleta de métricas é realizada principalmente pelo Prometheus. Já a geraç�
 ![Arquitetura](./Arquitetura.png?raw=true "Arquitetura")
 
 #### Endpoints
+- swagger: localhost:5000/swagger
 - localhost/index.html -> home, interface para votação
 - localhost/resultado.html -> mostra o resultado parcial do paredão
 - localhost/painel.html -> painel que mostra o total de votos e votos/hora
