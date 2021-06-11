@@ -1,11 +1,10 @@
 # Desafio-SRE-globo.com
 
-#### dockerhub
-- leandrorfsantos/paredao-proxy
-- leandrorfsantos/paredao-api
-- leandrorfsantos/paredao-consumer
-- leandrorfsantos/logging-collector
-
+```bash
+git clone https://github.com/leandrosantos89/desafio-SRE-globo.com.git
+cd desafio-SRE-globo.com
+sudo make run-all
+```
 
 ## O Problema
 Você deve desenvolver um sistema de votação para o paredão do BBB, em versão Web com HTML/CSS/Javascript e uma API REST como backend utilizando qualquer linguagem de programação (Java, Python, Go ou Ruby). 
