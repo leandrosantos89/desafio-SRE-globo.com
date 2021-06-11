@@ -51,7 +51,7 @@ O segundo passo é executar o `run.sh (subir_app|subir_logging|subir_monitoring|
 O deploy foi testado em um ambiente com Ubuntu 20.04.
 
 ```bash
-git clone git@github.com:leandrosantos89/desafio-SRE-globo.com.git
+git clone https://github.com/leandrosantos89/desafio-SRE-globo.com.git
 cd desafio-SRE-globo.com
 ./preflight.sh (shell|ansible)
 ./run.sh (subir_app|subir_logging|subir_monitoring|full_stack_shell|full_stack_ansible)
@@ -66,6 +66,7 @@ Extra:
 #### Aplicação
 - Abra a aplicação no endereço http://localhost em algum browser
 - API Rest: http://localhost:5000
+- API Rest docs: http://localhost:5000/swagger
 
 #### Monitoramento
 - Prometheus: http://localhost:9090
