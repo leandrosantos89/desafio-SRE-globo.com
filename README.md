@@ -1,11 +1,5 @@
 # Desafio-SRE-globo.com
 
-## TODO
-- [x] terminar documentação
-- [x] adicionar dashboard no grafana + print
-- [x] subir imagens para o dockerhub
-
-
 #### dockerhub
 - leandrorfsantos/paredao-proxy
 - leandrorfsantos/paredao-api
